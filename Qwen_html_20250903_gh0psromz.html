@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Grupos Escolares - Coordinación de Equipos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            margin-bottom: 1.5rem;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 1.5rem 0;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a0db9 0%, #1a68e8 100%);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            border: none;
+        }
+        .btn-success:hover {
+            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%);
+        }
+        .group-card {
+            transition: transform 0.3s;
+            min-height: 320px;
+        }
+        .group-card:hover {
+            transform: translateY(-5px);
+        }
+        .file-upload {
+            border: 2px dashed #6a11cb;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            background-color: #f0f5ff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .file-upload:hover {
+            background-color: #e0eaff;
+            border-color: #5a0db9;
+        }
+        .student-badge {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border-radius: 20px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+        }
+        .tutor-badge {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 20px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+        }
+        .evaluator-badge {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border-radius: 20px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+        }
+        .space-badge {
+            background-color: #ffebee;
+            color: #c62828;
+            border-radius: 20px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+        }
+        .group-header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 1rem;
+            margin-bottom: 0;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        .download-section {
+            background-color: #e8f5e9;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .highlight {
+            background-color: #fff9c4;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+        }
+        .file-info {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 0.75rem;
+            border-radius: 0 0.25rem 0.25rem 0;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-success {
+            background-color: #4caf50;
+        }
+        .status-warning {
+            background-color: #ff9800;
+        }
+        .status-danger {
+            background-color: #f44336;
+        }
+        .evaluation-info {
+            background-color: #fff8e1;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 4px solid #ffc107;
+        }
+        .space-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .space-box {
+            flex: 1;
+            min-width: 200px;
+            border: 2px dashed #9e9e9e;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background-color: #fafafa;
+        }
+        .space-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .space-content {
+            min-height: 100px;
+        }
+        .alert-download {
+            background-color: #fff3e0;
+            border: 1px solid #ffc107;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .alert-download i {
+            color: #ef6c00;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header-bg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1><i class="fas fa-users"></i> Sistema de Grupos Escolares</h1>
+                    <p class="lead">Cargue listas de Excel y genere grupos coordinados por espacios físicos</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <i class="fas fa-chalkboard-teacher fa-3x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <!-- Carga de Archivos -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-file-upload"></i> Cargar Listas de Excel</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tutores Docentes</label>
+                        <div class="file-upload" id="docenteDropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                            <p>Arrastre o haga clic para seleccionar archivo Excel</p>
+                            <small class="text-muted">Formato: Nombres y apellidos</small>
+                        </div>
+                        <input type="file" id="docenteFile" accept=".xlsx,.xls" class="d-none">
+                        <div id="docenteFileInfo" class="file-info d-none">
+                            <i class="fas fa-check-circle status-success"></i>
+                            <span id="docenteFileName">Ningún archivo seleccionado</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tutores Estudiantes</label>
+                        <div class="file-upload" id="estudianteDropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                            <p>Arrastre o haga clic para seleccionar archivo Excel</p>
+                            <small class="text-muted">Formato: Nombres y apellidos</small>
+                        </div>
+                        <input type="file" id="estudianteFile" accept=".xlsx,.xls" class="d-none">
+                        <div id="estudianteFileInfo" class="file-info d-none">
+                            <i class="fas fa-check-circle status-success"></i>
+                            <span id="estudianteFileName">Ningún archivo seleccionado</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Estudiantes de 4to Año</label>
+                        <div class="file-upload" id="cuartoDropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                            <p>Arrastre o haga clic para seleccionar archivo Excel</p>
+                            <small class="text-muted">Formato: Nombres y apellidos</small>
+                        </div>
+                        <input type="file" id="cuartoFile" accept=".xlsx,.xls" class="d-none">
+                        <div id="cuartoFileInfo" class="file-info d-none">
+                            <i class="fas fa-check-circle status-success"></i>
+                            <span id="cuartoFileName">Ningún archivo seleccionado</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Evaluadores</label>
+                        <div class="file-upload" id="evaluadorDropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                            <p>Arrastre o haga clic para seleccionar archivo Excel</p>
+                            <small class="text-muted">Formato: Nombres y apellidos</small>
+                        </div>
+                        <input type="file" id="evaluadorFile" accept=".xlsx,.xls" class="d-none">
+                        <div id="evaluadorFileInfo" class="file-info d-none">
+                            <i class="fas fa-check-circle status-success"></i>
+                            <span id="evaluadorFileName">Ningún archivo seleccionado</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button id="generarGruposBtn" class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-random"></i> Generar Grupos Coordinados
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="card" id="resultadosCard" style="display: none;">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-users"></i> Grupos Generados</h5>
+            </div>
+            <div class="card-body">
+                <!-- Información de coordinación -->
+                <div class="evaluation-info">
+                    <h6><i class="fas fa-info-circle"></i> Coordinación de Equipos</h6>
+                    <p>Los tutores, evaluadores y estudiantes están coordinados dentro del mismo espacio físico. Cada grupo tiene:</p>
+                    <ul>
+                        <li>6 estudiantes</li>
+                        <li>1 tutor docente</li>
+                        <li>1 tutor estudiante</li>
+                        <li>1 evaluador</li>
+                        <li>Asignado a un espacio físico específico</li>
+                    </ul>
+                </div>
+                
+                <!-- Espacios Físicos -->
+                <h5><i class="fas fa-building"></i> Espacios Físicos de Trabajo</h5>
+                <div class="space-container">
+                    <div class="space-box">
+                        <div class="space-title">Espacio 1</div>
+                        <div class="space-content" id="espacio1"></div>
+                    </div>
+                    <div class="space-box">
+                        <div class="space-title">Espacio 2</div>
+                        <div class="space-content" id="espacio2"></div>
+                    </div>
+                    <div class="space-box">
+                        <div class="space-title">Espacio 3</div>
+                        <div class="space-content" id="espacio3"></div>
+                    </div>
+                    <div class="space-box">
+                        <div class="space-title">Espacio 4</div>
+                        <div class="space-content" id="espacio4"></div>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <!-- Grupos individuales -->
+                <div id="gruposContainer" class="row"></div>
+                
+                <!-- Sección de descarga -->
+                <div class="download-section mt-4">
+                    <h5><i class="fas fa-download"></i> Descargar Grupos en Excel</h5>
+                    <p>Descargue los grupos generados en formato Excel para compartir o imprimir.</p>
+                    <div class="alert-download">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Importante:</strong> Para descargar los grupos, haz clic en el botón a continuación después de generarlos.
+                    </div>
+                    <button id="descargarExcelBtn" class="btn btn-success download-btn" disabled>
+                        <i class="fas fa-file-excel"></i> Descargar como Excel
+                    </button>
+                    <p class="mt-2 text-muted">
+                        <i class="fas fa-info-circle"></i> 
+                        Los datos se exportarán en una hoja de cálculo con los siguientes campos:
+                        <ul class="mb-0">
+                            <li>Grupo</li>
+                            <li>Estudiantes (máximo 6)</li>
+                            <li>Tutor Docente</li>
+                            <li>Tutor Estudiante</li>
+                            <li>Evaluador</li>
+                            <li>Espacio Físico</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de carga -->
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Información del Sistema</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-list"></i> Cómo funciona:</h6>
+                        <ol>
+                            <li>Cargue los archivos Excel con las listas de nombres</li>
+                            <li>Los nombres deben estar en una columna</li>
+                            <li>Haga clic en "Generar Grupos Coordinados"</li>
+                            <li>Se crearán grupos de 6 estudiantes con tutor docente y tutor estudiante</li>
+                            <li>Los grupos se distribuirán en 4 espacios físicos</li>
+                            <li>Cada grupo tiene tutor, evaluador y estudiantes en el mismo espacio</li>
+                            <li>Haga clic en "Descargar como Excel" para obtener el archivo</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-exclamation-triangle"></i> Notas importantes:</h6>
+                        <ul>
+                            <li>Cada grupo tendrá 6 estudiantes</li>
+                            <li>Un tutor docente por grupo</li>
+                            <li>Un tutor estudiante por grupo</li>
+                            <li>Un evaluador por grupo</li>
+                            <li>Los equipos están coordinados por espacio físico</li>
+                            <li>Los nombres se asignan aleatoriamente</li>
+                            <li>Los archivos deben tener la estructura correcta</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>Sistema de Generación de Grupos Escolares &copy; 2023</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        // Datos almacenados
+        let docentes = [];
+        let estudiantes = [];
+        let cuartoAño = [];
+        let evaluadores = [];
+        let gruposGenerados = [];
+        let espaciosFisicos = [[], [], [], []]; // 4 espacios
+
+        // Eventos de carga de archivos
+        document.getElementById('docenteDropZone').addEventListener('click', () => {
+            document.getElementById('docenteFile').click();
+        });
+        
+        document.getElementById('estudianteDropZone').addEventListener('click', () => {
+            document.getElementById('estudianteFile').click();
+        });
+        
+        document.getElementById('cuartoDropZone').addEventListener('click', () => {
+            document.getElementById('cuartoFile').click();
+        });
+        
+        document.getElementById('evaluadorDropZone').addEventListener('click', () => {
+            document.getElementById('evaluadorFile').click();
+        });
+
+        // Manejo de archivos
+        document.getElementById('docenteFile').addEventListener('change', function(e) {
+            processFile(e.target.files[0], 'docente');
+        });
+        
+        document.getElementById('estudianteFile').addEventListener('change', function(e) {
+            processFile(e.target.files[0], 'estudiante');
+        });
+        
+        document.getElementById('cuartoFile').addEventListener('change', function(e) {
+            processFile(e.target.files[0], 'cuarto');
+        });
+        
+        document.getElementById('evaluadorFile').addEventListener('change', function(e) {
+            processFile(e.target.files[0], 'evaluador');
+        });
+
+        // Función para procesar archivos Excel
+        function processFile(file, tipo) {
+            if (!file) return;
+            
+            // Mostrar información del archivo cargado
+            showFileInfo(tipo, file.name);
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    
+                    // Obtener la primera hoja
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    
+                    // Convertir a JSON
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                    
+                    // Extraer nombres (primera columna)
+                    let nombres = [];
+                    for (let i = 1; i < jsonData.length; i++) {
+                        if (jsonData[i][0]) {
+                            nombres.push(jsonData[i][0].trim());
+                        }
+                    }
+                    
+                    // Almacenar según tipo
+                    switch(tipo) {
+                        case 'docente':
+                            docentes = nombres;
+                            break;
+                        case 'estudiante':
+                            estudiantes = nombres;
+                            break;
+                        case 'cuarto':
+                            cuartoAño = nombres;
+                            break;
+                        case 'evaluador':
+                            evaluadores = nombres;
+                            break;
+                    }
+                    
+                    // Mostrar mensaje de éxito
+                    alert(`Archivo cargado correctamente para ${tipo === 'docente' ? 'Tutores Docentes' : 
+                           tipo === 'estudiante' ? 'Tutores Estudiantes' : 
+                           tipo === 'cuarto' ? 'Estudiantes de 4to Año' : 'Evaluadores'}\n\nNombre: ${file.name}\nRegistros: ${nombres.length}`);
+                } catch (error) {
+                    alert(`Error al procesar el archivo ${file.name}:\n${error.message}`);
+                }
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Mostrar información del archivo cargado
+        function showFileInfo(tipo, fileName) {
+            let fileInfoElement, fileNameElement;
+            
+            switch(tipo) {
+                case 'docente':
+                    fileInfoElement = document.getElementById('docenteFileInfo');
+                    fileNameElement = document.getElementById('docenteFileName');
+                    break;
+                case 'estudiante':
+                    fileInfoElement = document.getElementById('estudianteFileInfo');
+                    fileNameElement = document.getElementById('estudianteFileName');
+                    break;
+                case 'cuarto':
+                    fileInfoElement = document.getElementById('cuartoFileInfo');
+                    fileNameElement = document.getElementById('cuartoFileName');
+                    break;
+                case 'evaluador':
+                    fileInfoElement = document.getElementById('evaluadorFileInfo');
+                    fileNameElement = document.getElementById('evaluadorFileName');
+                    break;
+            }
+            
+            fileNameElement.textContent = fileName;
+            fileInfoElement.classList.remove('d-none');
+        }
+
+        // Generar grupos coordinados
+        document.getElementById('generarGruposBtn').addEventListener('click', function() {
+            // Validar que se hayan cargado todos los datos necesarios
+            if (docentes.length === 0 || estudiantes.length === 0 || cuartoAño.length === 0 || evaluadores.length === 0) {
+                alert('Por favor, cargue todos los archivos de Excel antes de generar los grupos.');
+                return;
+            }
+            
+            // Crear copias de los arrays para no modificar los originales
+            let docentesDisponibles = [...docentes];
+            let estudiantesDisponibles = [...estudiantes];
+            let cuartoAñoDisponibles = [...cuartoAño];
+            let evaluadoresDisponibles = [...evaluadores];
+            
+            // Mezclar arrays aleatoriamente
+            shuffleArray(docentesDisponibles);
+            shuffleArray(estudiantesDisponibles);
+            shuffleArray(cuartoAñoDisponibles);
+            shuffleArray(evaluadoresDisponibles);
+            
+            // Crear grupos
+            gruposGenerados = [];
+            const totalEstudiantes = cuartoAñoDisponibles.length;
+            const totalGrupos = Math.ceil(totalEstudiantes / 6);
+            
+            // Asignar estudiantes a grupos
+            for (let i = 0; i < totalGrupos; i++) {
+                const grupo = {
+                    numero: i + 1,
+                    estudiantes: [],
+                    tutorDocente: null,
+                    tutorEstudiante: null,
+                    evaluador: null
+                };
+                
+                // Asignar estudiantes
+                const inicio = i * 6;
+                const fin = Math.min(inicio + 6, totalEstudiantes);
+                grupo.estudiantes = cuartoAñoDisponibles.slice(inicio, fin);
+                
+                // Asignar tutor docente
+                if (docentesDisponibles.length > 0) {
+                    grupo.tutorDocente = docentesDisponibles.shift();
+                }
+                
+                // Asignar tutor estudiante
+                if (estudiantesDisponibles.length > 0) {
+                    grupo.tutorEstudiante = estudiantesDisponibles.shift();
+                }
+                
+                // Asignar evaluador
+                if (evaluadoresDisponibles.length > 0) {
+                    grupo.evaluador = evaluadoresDisponibles.shift();
+                }
+                
+                gruposGenerados.push(grupo);
+            }
+            
+            // Distribuir grupos en espacios físicos (circular)
+            distribuirEnEspacios();
+            
+            // Mostrar resultados
+            mostrarGrupos(gruposGenerados);
+            
+            // Habilitar botón de descarga
+            document.getElementById('descargarExcelBtn').disabled = false;
+        });
+
+        // Función para mezclar array aleatoriamente
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Distribuir grupos en espacios físicos
+        function distribuirEnEspacios() {
+            // Limpiar espacios
+            espaciosFisicos = [[], [], [], []];
+            
+            // Asignar grupos a espacios de forma circular
+            gruposGenerados.forEach((grupo, index) => {
+                const espacioIndex = index % 4; // 0, 1, 2, 3
+                grupo.espacio = espacioIndex + 1;
+                espaciosFisicos[espacioIndex].push(grupo);
+            });
+        }
+
+        // Mostrar grupos generados
+        function mostrarGrupos(grupos) {
+            // Limpiar contenedores de espacios
+            document.getElementById('espacio1').innerHTML = '';
+            document.getElementById('espacio2').innerHTML = '';
+            document.getElementById('espacio3').innerHTML = '';
+            document.getElementById('espacio4').innerHTML = '';
+            
+            const container = document.getElementById('gruposContainer');
+            container.innerHTML = '';
+            
+            grupos.forEach(grupo => {
+                const grupoDiv = document.createElement('div');
+                grupoDiv.className = 'col-md-6 mb-4';
+                grupoDiv.innerHTML = `
+                    <div class="card group-card">
+                        <div class="group-header">
+                            <h5 class="mb-0">Grupo ${grupo.numero} - Espacio ${grupo.espacio}</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6><i class="fas fa-users"></i> Estudiantes (${grupo.estudiantes.length})</h6>
+                            <div class="mb-3">
+                                ${grupo.estudiantes.map(est => `<span class="student-badge">${est}</span>`).join(' ')}
+                            </div>
+                            
+                            <h6><i class="fas fa-user-tie"></i> Tutor Docente</h6>
+                            <p>${grupo.tutorDocente || '<span class="text-muted">Sin asignar</span>'}</p>
+                            
+                            <h6><i class="fas fa-user-graduate"></i> Tutor Estudiante</h6>
+                            <p>${grupo.tutorEstudiante || '<span class="text-muted">Sin asignar</span>'}</p>
+                            
+                            <h6><i class="fas fa-user-check"></i> Evaluador</h6>
+                            <p>${grupo.evaluador || '<span class="text-muted">Sin asignar</span>'}</p>
+                            
+                            <h6><i class="fas fa-building"></i> Espacio Físico</h6>
+                            <p><span class="space-badge">Espacio ${grupo.espacio}</span></p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(grupoDiv);
+                
+                // Agregar al espacio correspondiente
+                const espacioContenido = document.getElementById(`espacio${grupo.espacio}`);
+                const espacioItem = document.createElement('div');
+                espacioItem.className = 'mb-2';
+                espacioItem.innerHTML = `
+                    <strong>Grupo ${grupo.numero}</strong><br>
+                    <span class="student-badge">${grupo.estudiantes.length} estudiantes</span>
+                    <span class="tutor-badge">Tutor: ${grupo.tutorDocente || 'Sin asignar'}</span>
+                    <span class="evaluator-badge">Eval: ${grupo.evaluador || 'Sin asignar'}</span>
+                `;
+                espacioContenido.appendChild(espacioItem);
+            });
+            
+            // Mostrar el contenedor de resultados
+            document.getElementById('resultadosCard').style.display = 'block';
+            
+            // Scroll hacia los resultados
+            document.getElementById('resultadosCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Descargar grupos en Excel
+        document.getElementById('descargarExcelBtn').addEventListener('click', function() {
+            if (gruposGenerados.length === 0) {
+                alert('No hay grupos generados para descargar.');
+                return;
+            }
+            
+            // Preparar datos para Excel
+            const data = [];
+            
+            // Encabezados
+            data.push(['Grupo', 'Estudiantes', 'Tutor Docente', 'Tutor Estudiante', 'Evaluador', 'Espacio Físico']);
+            
+            // Datos de grupos
+            gruposGenerados.forEach(grupo => {
+                // Unir estudiantes en una sola celda separados por comas
+                const estudiantesTexto = grupo.estudiantes.join(', ');
+                
+                data.push([
+                    `Grupo ${grupo.numero}`,
+                    estudiantesTexto,
+                    grupo.tutorDocente || '',
+                    grupo.tutorEstudiante || '',
+                    grupo.evaluador || '',
+                    `Espacio ${grupo.espacio}`
+                ]);
+            });
+            
+            // Crear libro de trabajo
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Grupos");
+            
+            // Descargar archivo
+            XLSX.writeFile(wb, "grupos_escolares_coordinados.xlsx");
+            
+            // Mostrar mensaje de éxito
+            alert('¡Archivo descargado exitosamente!\nSe ha creado el archivo "grupos_escolares_coordinados.xlsx"');
+        });
+    </script>
+</body>
+</html>
